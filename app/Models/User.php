@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotificationBase;
 
 class User extends Authenticatable
 {
@@ -49,5 +51,10 @@ class User extends Authenticatable
 
     public function articles() {
         return $this->hasMany(Article::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

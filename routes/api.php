@@ -10,6 +10,15 @@ use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\EvenementController;
 use App\Http\Controllers\Api\GroupeController;
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
+
+
+
+  Route::post('/forget-password', [ForgetPasswordController::class, 'sendResetLink']);
+Route::post('/reset-password/{token}', [ForgetPasswordController::class, 'resetPassword'])
+     ->name('password.reset');
+
+
 
 // Auth
 Route::post('/register', [AuthController::class, 'register']);
@@ -40,4 +49,16 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Articles CRUD
     Route::apiResource('articles', ArticleController::class);
+
+   // récupérer le profil de l’utilisateur connecté
+    Route::get('/profile', [UserController::class, 'profile']);
+
+   // mettre à jour le profil de l’utilisateur connecté
+    Route::put('/profile', [UserController::class, 'updateProfile']);
+
+    Route::post('/password/update', [UserController::class, 'updatePassword']);
+  
+
+
+
 });
